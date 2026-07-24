@@ -16,7 +16,7 @@ Audit first. Treat memory use as severity evidence, never as permission to termi
 - Produce `reclaim_candidate` only when ownership evidence is complete, ended-task evidence matches, the process is old, and two samples show no meaningful activity.
 - Require explicit approval for any future apply workflow. A plan is not approval.
 
-Read [classification-policy.md](references/classification-policy.md) before classifying or interpreting results. Read [ownership-snapshot.md](references/ownership-snapshot.md) when Codex task or terminal APIs are available.
+Read [classification-policy.md](references/classification-policy.md) before classifying or interpreting results. Read [ownership-snapshot.md](references/ownership-snapshot.md) when Codex task or terminal APIs are available. Read [report-format.md](references/report-format.md) before presenting results.
 
 ## Workflow
 
@@ -38,7 +38,7 @@ Read [classification-policy.md](references/classification-policy.md) before clas
      -OutputPath <plan.json>
    ```
 
-5. Summarize protected, suspected, ambiguous, and reclaim-candidate groups. Show exact identity evidence and estimated reclaimable working set.
+5. Summarize protected, suspected, ambiguous, and reclaim-candidate groups using `references/report-format.md`. Show exact identity evidence and estimated reclaimable working set.
 6. Stop. v0.1 has no apply command.
 
 If host task APIs are unavailable, run the audit without an ownership snapshot and state that no process can reach `reclaim_candidate`.
