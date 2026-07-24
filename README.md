@@ -1,117 +1,112 @@
 # Codex Runtime Hygiene
 
-Windows 優先的 Codex Skill：找出可能殘留、重複或仍在使用中的 Codex、MCP、Node kernel 與背景終端程序，產生可審查的唯讀報告。
+安全檢查 Windows 上可能殘留的 Codex、MCP、Node kernel 與背景終端程序。
 
-> v0.1 只做 `audit` 與 `plan`，不會終止任何程序，也不提供刪除指令。
+它會告訴你哪些程序仍在使用、哪些證據不足，以及哪些可能是已結束任務留下的程序。**目前版本只產生報告，不會關閉任何程序。**
 
-## 一個提示詞安裝
+## 適合什麼情況？
 
-可以。把下面整段貼給 Codex，Codex 可在同一個任務中完成下載、靜態檢查與安裝：
+- Codex 開久後出現大量 Node、MCP 或 helper 程序
+- 關閉任務後，記憶體占用沒有下降
+- 重新開啟 Codex 後，懷疑新舊兩批程序同時存在
+- 想檢查殘留程序，但不希望只靠 PID、名稱或記憶體大小判斷
+
+## 安裝
+
+把下面這段貼給 Codex：
 
 ```text
 請從 https://github.com/jacky-0218-lung/codex-runtime-hygiene/tree/main/skills/codex-runtime-hygiene
 安裝 codex-runtime-hygiene Skill。
 
-只取得 skills/codex-runtime-hygiene 完整子目錄，安裝到 Codex 信任的個人 skills 目錄。
-安裝前先靜態檢查 SKILL.md、references、scripts 與 agents；不要為了安裝而執行下載的腳本。
-如果目的地已存在，請停止並回報差異，不要覆蓋。
-安裝後回報來源 commit、完整檔案清單、安裝路徑，以及是否需要開啟新任務才會生效。
+安裝前請先靜態檢查完整 Skill 內容，不要執行下載的腳本。
+如果目的地已存在，請停止並回報，不要覆蓋。
+安裝後告訴我來源 commit、安裝路徑，以及是否需要開啟新任務才會生效。
 ```
 
-公開 repo 通常不需要 GitHub 登入。要讓安裝內容可重現，請把網址中的 `main` 換成 release tag 或完整 commit SHA。更完整的安裝說明見 [install.md](install.md)。
+安裝通常可在一個 Codex 任務內完成。完成後建議開啟新任務再使用。
 
-## 怎麼使用
+需要固定版本或更新既有安裝時，請參考[完整安裝說明](install.md)。
 
-安裝完成後，建議開一個新 Codex 任務，貼上：
+## 使用
+
+在新的 Codex 任務中輸入：
 
 ```text
-使用 $codex-runtime-hygiene 檢查目前是否有 Codex 殘留程序。
-只執行 audit 和 plan，不要終止任何程序。
-用中文摘要結果，並列出 protected、ambiguous_identity、
-suspected_excess 與 reclaim_candidate 的證據和下一步。
+使用 $codex-runtime-hygiene 檢查是否有 Codex 殘留程序。
+只做檢查，不要終止任何程序。
 ```
 
-也可以直接用自然語言觸發，例如：
+你也可以直接說：
 
 ```text
-幫我檢查為什麼 Codex 累積很多 Node、MCP 或背景終端程序。
-只做唯讀檢查，不要清理。
+幫我檢查為什麼 Codex 累積很多 Node 和 MCP 程序，不要清理。
 ```
 
-Skill 會先查詢 Codex 任務與背景終端的使用狀態，再對 Windows 程序取兩次樣本，最後分類：
+檢查過程通常需要幾秒鐘，因為 Skill 會取兩次活動樣本，避免把暫時安靜但仍在工作的程序誤判為殘留。
 
-| 分類 | 意義 | v0.1 動作 |
-|---|---|---|
-| `protected` | 正在使用、近期有活動或仍在保護期 | 絕不列入清理目標 |
-| `ambiguous_identity` | PID 重用、身分漂移或證據衝突 | 重新取樣與補證據 |
-| `suspected_excess` | 看起來多餘，但任務所有權或活動資料不完整 | 只報告 |
-| `reclaim_candidate` | 完整所有權、已結束任務、穩定身分與跨樣本無活動都吻合 | 只產生待核准目標 |
+## 你會拿到什麼？
 
-## 報告會長怎樣
+Codex 會先用中文說明結論，再把程序分成四類：
 
-Codex 會先提供中文摘要，並保留 `audit.json` 與 `plan.json` 供精確審查。以下為合成範例：
+| 分類 | 代表什麼 |
+|---|---|
+| 使用中／受保護 | 屬於目前任務、背景終端，或近期仍有 CPU／I/O 活動 |
+| 身分有疑問 | PID 可能重用，或前後兩次資料不一致 |
+| 疑似多餘 | 看起來像殘留，但任務所有權或活動證據還不完整 |
+| 待核准候選 | 已完成任務、程序身分與靜止證據完整；仍然不會自動關閉 |
+
+報告範例如下：
 
 ```text
 Codex Runtime Hygiene — 唯讀檢查
 
-結論：目前不建議終止任何程序。
-所有權證據：完整
-收集方式：Win32_Process，兩次取樣相隔 5 秒
+結論：發現 3 個疑似多餘程序；目前沒有可確認的清理候選。
+檢查品質：任務所有權資料不完整，因此採取保守判定。
 
-protected              8 個 / 1.42 GiB
-ambiguous_identity     1 個 / 96 MiB
-suspected_excess       3 個 / 740 MiB
-reclaim_candidate      1 個 / 312 MiB
+使用中／受保護    8 個 / 1.42 GiB
+身分有疑問        1 個 / 96 MiB
+疑似多餘          3 個 / 740 MiB
+待核准候選        0 個 / 0 MiB
 
-待核准候選 #1
-PID / 建立時間：18440 / 2026-07-24T02:14:31Z
-路徑：C:\...\node.exe
-命令列指紋：SHA256:8B71…C922
-活動差值：CPU 0 ms、I/O 0 bytes
-證據：屬於已完成任務；程序樹身分穩定；超過最低年齡；兩次取樣無活動
-
-動作：未終止任何程序。v0.1 applySupported=false。
+本次沒有終止任何程序。
 ```
 
-完整欄位與 JSON 範例見 [examples/report-example.md](examples/report-example.md)。
+需要精確審查時，Codex 也會保留本機 `audit.json` 與 `plan.json`。這些檔案可能包含本機路徑，不應直接公開。查看[完整報告範例](examples/report-example.md)。
 
-## 報告出來後，要再叫 Codex 刪除嗎？
+## 它怎麼避免誤判？
 
-**不要。v0.1 的安全流程在報告與人工審查後就停止。**
+Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可以清理。它會一起檢查：
 
-即使出現 `reclaim_candidate`，它仍只是「未來可交給核准式清理器的精確目標」，不是刪除許可。直接叫一般 Codex 按 PID 終止程序，會繞過建立時間、路徑、命令列指紋與整棵程序樹的重新驗證。
+- Codex 任務與背景終端是否仍在使用
+- PID 與程序建立時間是否一致
+- 執行檔路徑與命令列指紋
+- 父子程序關係
+- 兩次取樣之間的 CPU 與 I/O 活動
 
-預計 v0.2 才會加入獨立的核准式 apply 流程；執行前必須重新比對整份計畫，任何 PID 重用或身分漂移都整批停止。在那之前，若需要立即釋放資源，優先正常關閉相關任務、背景終端或 Codex App，再重新稽核。
+只要所有權資料缺少、程序身分改變，或同一棵程序樹中仍有受保護項目，結果就會降級為「疑似多餘」或「身分有疑問」。
 
-## 每週維護
+## 報告後會自動清理嗎？
 
-Skill 與每週維護是兩件事：
+不會。現在的安全流程是：
 
-- Skill 在使用者電腦上做唯讀稽核與分類。
-- Codex 排程每週檢查新證據、Windows/Codex 變更與改善機會。
-- 只有具體且可驗證的改善才建立 `weekly-improve-*` 分支與 Draft PR。
-- 排程不終止程序、不安裝 Skill、不自動合併 PR，也不直接修改已安裝版本。
-
-## 開發與驗證
-
-Skill 位於 `skills/codex-runtime-hygiene`。稽核輸出的 JSON 可能包含本機路徑與程序指紋，不應提交到 repo。
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tests/test-runtime-hygiene.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-repository.ps1
+```text
+檢查 → 分類 → 顯示證據 → 停止
 ```
+
+報告中的 PID 也不應直接轉成 `Stop-Process` 或 `taskkill` 指令，因為 PID 可能已被其他新程序重新使用。
+
+如果只是想立即釋放資源，請先正常關閉相關 Codex 任務、背景終端或 Codex App，再重新檢查。
+
+## 支援範圍
+
+- Windows 優先
+- PowerShell 5.1 或更新版本
+- Codex Desktop／app-server 相關程序
+- MCP servers、Node kernels、背景終端及其程序樹
+
+目前版本：**v0.1，唯讀檢查**
 
 ---
 
-## English
-
-Codex Runtime Hygiene is a Windows-first, read-only Agent Skill for auditing Codex-related process trees. v0.1 samples activity twice, validates PID plus creation time, incorporates authoritative task ownership when available, and produces an approval-oriented plan without terminating anything.
-
-Install it by asking Codex to copy the complete `skills/codex-runtime-hygiene` subtree into the trusted personal skills directory, statically inspect the files first, and stop if the destination already exists. Start a new task afterward and ask:
-
-```text
-Use $codex-runtime-hygiene to audit possible Codex runtime leftovers.
-Run audit and plan only. Do not terminate any process.
-```
-
-The weekly review automation proposes improvements through draft PRs; it never kills processes, installs the Skill, merges PRs, or changes an installed copy.
+English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees and explains which processes are active, ambiguous, or potentially left behind. The current release is read-only and never terminates processes.
