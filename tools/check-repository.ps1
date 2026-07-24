@@ -33,6 +33,7 @@ $required = @(
     "skills\codex-runtime-hygiene\scripts\audit-runtime.ps1",
     "skills\codex-runtime-hygiene\scripts\build-reclaim-plan.ps1",
     "skills\codex-runtime-hygiene\references\classification-policy.md",
+    "skills\codex-runtime-hygiene\references\report-format.md",
     "tests\fixtures\active-task.json",
     "tests\fixtures\recent-activity.json",
     "tests\fixtures\pid-reuse.json",
