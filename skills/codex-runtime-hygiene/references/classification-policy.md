@@ -7,7 +7,7 @@
 3. A reused PID or any identity drift blocks cleanup.
 4. A protected descendant blocks cleanup of its ancestor tree.
 5. Missing ownership evidence lowers confidence; it never increases it.
-6. v0.1 only audits and plans.
+6. Audit and plan are always read-only. Apply is a separate digest-approved workflow.
 
 ## Classes
 
@@ -16,7 +16,7 @@
 | `protected` | Active ownership match, active workspace match, recent CPU/I/O, or newly created process | Never include in a reclaim target |
 | `ambiguous_identity` | PID reuse, creation-time mismatch, sample drift, or contradictory ownership | Report the conflict; collect fresh evidence |
 | `suspected_excess` | Codex-connected, old and quiet, but ownership is incomplete or no ended-task evidence matches | Report only |
-| `reclaim_candidate` | Complete ownership snapshot, exact ended-task evidence, Codex lineage, minimum age, quiet across samples, and no identity conflict | Include in an approval-required plan |
+| `reclaim_candidate` | Complete ownership snapshot, exact ended-task evidence, Codex lineage, minimum age, quiet across samples, and no identity conflict | Include in a digest-bound approval plan |
 
 ## Default thresholds
 
@@ -42,7 +42,7 @@ Items 1–4 protect. Item 5 can support a reclaim candidate. Item 6 can only sup
 
 ## Tree rule
 
-Never plan a tree-level reclaim when any member is protected or ambiguous. A future apply implementation must re-sample the entire tree and revalidate every identity immediately before acting. Any drift must stop the whole approved plan.
+Never plan a tree-level reclaim when any member is protected or ambiguous. Apply must re-sample the entire tree and revalidate every identity immediately before acting. Any preflight drift must stop the whole approved plan.
 
 ## Confidence
 

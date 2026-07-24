@@ -59,7 +59,7 @@ https://github.com/jacky-0218-lung/codex-runtime-hygiene/tree/<完整-commit-SHA
 只建立 audit 與 plan，不要終止任何程序。
 ```
 
-預期結果應明確寫出 `v0.1`、`read-only`、`applySupported=false`，並以中文摘要四種分類。
+預期結果應明確寫出 `v0.2`，先以唯讀模式摘要四種分類；沒有精確的計畫 SHA-256 核准時，不得執行清理。
 
 ---
 
