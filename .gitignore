@@ -1,0 +1,8 @@
+work/
+private/
+*.audit.json
+*.plan.json
+codex-runtime-audit.json
+codex-runtime-reclaim-plan.json
+*.tmp
+*.log

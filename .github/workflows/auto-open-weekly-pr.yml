@@ -1,0 +1,49 @@
+name: Auto-open weekly draft PR
+
+on:
+  push:
+    branches:
+      - 'weekly-improve-*'
+
+permissions:
+  contents: read
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Open a draft PR for the weekly branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          owner="${REPO%/*}"
+          existing=$(gh api "repos/${REPO}/pulls?state=open&head=${owner}:${BRANCH}" --jq 'length')
+          if [ "${existing}" != "0" ]; then
+            echo "An open PR already exists for ${BRANCH}."
+            exit 0
+          fi
+
+          raw=$(gh api "repos/${REPO}/contents/CHANGELOG.md?ref=${BRANCH}" --jq '.content' 2>/dev/null | base64 -d 2>/dev/null || true)
+          section=$(printf '%s\n' "${raw}" | awk '/^## \[Unreleased\]/{f=1;next} /^## \[/{if(f)exit} f')
+          if [ -z "$(printf '%s' "${section}" | tr -d '[:space:]')" ]; then
+            section="See the branch commit and tests for the proposed maintenance change."
+          fi
+
+          gh api "repos/${REPO}/pulls" \
+            -f title="chore: weekly runtime-hygiene improvement (${BRANCH})" \
+            -f head="${BRANCH}" \
+            -f base="main" \
+            -F draft=true \
+            -f body="This draft PR was opened automatically after the weekly maintenance task pushed \`${BRANCH}\`.
+
+          ## Unreleased changes
+
+          ${section}
+
+          The scheduled task does not merge, install, or terminate processes. CI and human review are required."

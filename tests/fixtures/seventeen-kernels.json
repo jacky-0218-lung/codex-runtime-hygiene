@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0",
+  "ownership": { "complete": true },
+  "processes": [
+    {
+      "pid": 5001, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:01:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-01", "workingSetBytes": 104857600,
+      "ageSeconds": 57600, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": ["active node kernel"], "endedOwnershipMatches": [],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5002, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:02:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-02", "workingSetBytes": 104857600,
+      "ageSeconds": 57540, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": [],
+      "activeWorkspaceMatches": ["C:\\synthetic\\active"], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5003, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:03:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-03", "workingSetBytes": 104857600,
+      "ageSeconds": 57480, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 03"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5004, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:04:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-04", "workingSetBytes": 104857600,
+      "ageSeconds": 57420, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 04"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5005, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:05:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-05", "workingSetBytes": 104857600,
+      "ageSeconds": 57360, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 05"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5006, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:06:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-06", "workingSetBytes": 104857600,
+      "ageSeconds": 57300, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 06"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5007, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:07:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-07", "workingSetBytes": 104857600,
+      "ageSeconds": 57240, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 07"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5008, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:08:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-08", "workingSetBytes": 104857600,
+      "ageSeconds": 57180, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 08"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5009, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:09:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-09", "workingSetBytes": 104857600,
+      "ageSeconds": 57120, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 09"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5010, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:10:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-10", "workingSetBytes": 104857600,
+      "ageSeconds": 57060, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 10"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5011, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:11:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-11", "workingSetBytes": 104857600,
+      "ageSeconds": 57000, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 11"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5012, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:12:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-12", "workingSetBytes": 104857600,
+      "ageSeconds": 56940, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 12"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5013, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:13:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-13", "workingSetBytes": 104857600,
+      "ageSeconds": 56880, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 13"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5014, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:14:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-14", "workingSetBytes": 104857600,
+      "ageSeconds": 56820, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 14"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5015, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:15:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-15", "workingSetBytes": 104857600,
+      "ageSeconds": 56760, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 15"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5016, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:16:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-16", "workingSetBytes": 104857600,
+      "ageSeconds": 56700, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 16"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 5017, "parentPid": 5000, "creationTimeUtc": "2026-07-24T08:17:00Z",
+      "name": "node.exe", "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "kernel-17", "workingSetBytes": 104857600,
+      "ageSeconds": 56640, "cpuDeltaMs": 0, "ioDeltaBytes": 0,
+      "lineageCodexConnected": true, "identityDrift": false, "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [], "endedOwnershipMatches": ["completed kernel 17"],
+      "activeWorkspaceMatches": [], "endedWorkspaceMatches": []
+    }
+  ]
+}

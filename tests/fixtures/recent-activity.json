@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "ownership": { "complete": true },
+  "processes": [
+    {
+      "pid": 4200,
+      "parentPid": 4000,
+      "creationTimeUtc": "2026-07-24T18:00:00Z",
+      "name": "node.exe",
+      "executablePath": "C:\\synthetic\\codex\\node.exe",
+      "commandLineFingerprint": "recent-activity",
+      "workingSetBytes": 201326592,
+      "ageSeconds": 21600,
+      "cpuDeltaMs": 175,
+      "ioDeltaBytes": 0,
+      "lineageCodexConnected": true,
+      "identityDrift": false,
+      "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [],
+      "endedOwnershipMatches": ["completed task identity"],
+      "activeWorkspaceMatches": [],
+      "endedWorkspaceMatches": []
+    }
+  ]
+}
