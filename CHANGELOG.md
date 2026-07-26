@@ -7,6 +7,7 @@
 - Acquire every original process handle before terminating descendants first.
 - Add mandatory post-apply audit and machine-readable receipt.
 - Make the README Chinese-first and document one-prompt installation.
+- Document one-prompt installation with an optional weekly read-only scheduled audit.
 - Add concrete human-readable and JSON report examples.
 - Define the installed Skill's Chinese-first report format.
 - Clarify that v0.1 reports and stops; it must not be followed by ad hoc PID termination.

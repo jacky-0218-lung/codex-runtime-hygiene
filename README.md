@@ -13,6 +13,8 @@
 
 ## 安裝
 
+### 選擇 A：只安裝
+
 把下面這段貼給 Codex：
 
 ```text
@@ -26,7 +28,32 @@
 
 安裝通常可在一個 Codex 任務內完成。完成後建議開啟新任務再使用。
 
-需要固定版本或更新既有安裝時，請參考[完整安裝說明](install.md)。
+### 選擇 B：安裝並每週自動檢查
+
+如果希望安裝後每週收到一次唯讀報告，把下面整段貼給 Codex：
+
+```text
+請安裝：
+https://github.com/jacky-0218-lung/codex-runtime-hygiene/tree/main/skills/codex-runtime-hygiene
+
+安裝前先靜態檢查完整 Skill；若目的地存在就停止，不要覆蓋。
+安裝成功後，建立名為「Codex Runtime Hygiene Weekly Audit」的排程：
+- 每週一上午 9:00（使用者當地時區）
+- 使用 $codex-runtime-hygiene
+- 只做 audit 和 plan
+- 絕不執行 apply，也不終止任何程序
+- 無異常時只回報簡短摘要
+- 發現 suspected_excess 或 reclaim_candidate 時，列出證據並通知我
+- 如果同名排程已存在，就更新它，不要重複建立
+
+最後回報來源 commit、安裝位置、排程時間與排程狀態。
+```
+
+這是一個提示詞完成兩個明確動作：安裝 Skill，以及建立每週排程。它不是安裝後偷偷啟用的背景服務。電腦必須開機，而且 Codex Desktop 必須持續執行，排程才會在本機準時啟動。
+
+每週排程只會產生報告，不會自動清理。即使報告出現「待核准候選」，仍要回到互動式任務查看完整計畫，並另外核准精確的計畫 SHA-256。
+
+需要固定版本、更新既有安裝或檢查排程是否建立成功時，請參考[完整安裝說明](install.md)。
 
 ## 使用
 

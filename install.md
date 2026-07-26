@@ -27,6 +27,43 @@
 
 安裝通常可在同一個 Codex 任務完成。為確保 Skill 清單重新載入，完成後建議開一個新任務再使用。
 
+## 安裝並建立每週唯讀檢查
+
+如果希望 Codex 每週自動檢查一次，可以用一個提示詞同時要求安裝與建立排程：
+
+```text
+請安裝：
+https://github.com/jacky-0218-lung/codex-runtime-hygiene/tree/main/skills/codex-runtime-hygiene
+
+安裝前先靜態檢查完整 Skill；若目的地存在就停止，不要覆蓋。
+安裝成功後，建立名為「Codex Runtime Hygiene Weekly Audit」的排程：
+- 每週一上午 9:00（使用者當地時區）
+- 使用 $codex-runtime-hygiene
+- 只做 audit 和 plan
+- 絕不執行 apply，也不終止任何程序
+- 無異常時只回報簡短摘要
+- 發現 suspected_excess 或 reclaim_candidate 時，列出證據並通知我
+- 如果同名排程已存在，就更新它，不要重複建立
+
+最後回報來源 commit、安裝位置、排程時間與排程狀態。
+```
+
+這個流程有幾項重要限制：
+
+- 安裝 Skill 與建立排程是兩個明確動作；安裝本身不會偷偷新增背景工作。
+- 本機排程執行時，電腦必須開機，而且 Codex Desktop 必須持續執行。
+- 同名排程應更新而不是重複建立，避免每週收到多份相同報告。
+- 排程只允許 `audit` 與 `plan`。不得在無人互動時執行 `apply`、`Stop-Process`、`taskkill` 或任何等效終止操作。
+- 排程發現 `reclaim_candidate` 時只通知。清理仍必須在互動式任務中顯示完整計畫，並取得完全相同的 `APPROVE <SHA-256>` 核准。
+
+建立後，請在 Codex Desktop 的排程頁面確認：
+
+1. 名稱是 `Codex Runtime Hygiene Weekly Audit`。
+2. 時區與預定時間正確。
+3. 提示詞明確包含 `$codex-runtime-hygiene`、`audit`、`plan` 與「不得執行 apply」。
+4. 只有一個同名排程。
+5. 第一次執行後有產生唯讀摘要，且沒有終止任何程序。
+
 ## 可重現安裝
 
 `main` 會隨 repo 更新。需要完全可重現時，請把安裝網址固定到 release tag 或完整 commit SHA，例如：
