@@ -140,6 +140,10 @@ APPROVE <計畫的 64 字元 SHA-256>
 
 目前版本：**v0.2，預設唯讀；支援精確核准式清理**
 
+## 授權
+
+本專案採用 [MIT License](LICENSE)。你可以依授權條款使用、修改與散布本專案。
+
 ---
 
 English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees. Reclaim requires an exact plan digest approval and a fresh full-plan identity check.
