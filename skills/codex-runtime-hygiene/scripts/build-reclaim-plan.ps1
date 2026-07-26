@@ -161,12 +161,12 @@ foreach ($name in @("protected", "ambiguous_identity", "suspected_excess", "recl
 }
 
 $result = [ordered]@{
-    schemaVersion = "1.0"
+    schemaVersion = "2.0"
     generatedAtUtc = [datetime]::UtcNow.ToString("o")
     sourceAudit = (Resolve-Path -LiteralPath $InputPath).Path
-    mode = "read-only-plan"
+    mode = "approval-plan"
     approvalRequired = $true
-    applySupported = $false
+    applySupported = $true
     thresholds = [ordered]@{
         minimumAgeMinutes = $MinimumAgeMinutes
         recentCpuThresholdMs = $RecentCpuThresholdMs
@@ -178,10 +178,16 @@ $result = [ordered]@{
     }
     processes = @($classified)
     exactApprovalTargets = @($candidates | Select-Object pid, parentPid, creationTimeUtc, executablePath, commandLineFingerprint, workingSetBytes)
+    approval = [ordered]@{
+        digestAlgorithm = "SHA256"
+        digestScope = "Exact bytes of the completed plan file"
+        requiredResponseFormat = "APPROVE <64-character-plan-sha256>"
+    }
     safety = @(
         "This plan does not terminate processes.",
-        "v0.1 has no apply command.",
-        "Any future apply implementation must revalidate every identity and stop the whole plan on drift."
+        "Apply requires an exact user-approved plan-file SHA-256.",
+        "Apply revalidates every identity and stops the whole plan on preflight drift.",
+        "A post-apply audit and receipt are mandatory."
     )
 }
 

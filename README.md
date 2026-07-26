@@ -2,7 +2,7 @@
 
 安全檢查 Windows 上可能殘留的 Codex、MCP、Node kernel 與背景終端程序。
 
-它會告訴你哪些程序仍在使用、哪些證據不足，以及哪些可能是已結束任務留下的程序。**目前版本只產生報告，不會關閉任何程序。**
+它會告訴你哪些程序仍在使用、哪些證據不足，以及哪些可能是已結束任務留下的程序。**預設只產生報告；沒有精確核准就不會關閉任何程序。**
 
 ## 適合什麼情況？
 
@@ -34,7 +34,7 @@
 
 ```text
 使用 $codex-runtime-hygiene 檢查是否有 Codex 殘留程序。
-只做檢查，不要終止任何程序。
+先做檢查，不要終止任何程序。
 ```
 
 你也可以直接說：
@@ -54,7 +54,7 @@ Codex 會先用中文說明結論，再把程序分成四類：
 | 使用中／受保護 | 屬於目前任務、背景終端，或近期仍有 CPU／I/O 活動 |
 | 身分有疑問 | PID 可能重用，或前後兩次資料不一致 |
 | 疑似多餘 | 看起來像殘留，但任務所有權或活動證據還不完整 |
-| 待核准候選 | 已完成任務、程序身分與靜止證據完整；仍然不會自動關閉 |
+| 待核准候選 | 已完成任務、程序身分與靜止證據完整；必須另外精確核准 |
 
 報告範例如下：
 
@@ -88,7 +88,7 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 ## 報告後會自動清理嗎？
 
-不會。現在的安全流程是：
+不會。如果只要求檢查，流程會停在報告：
 
 ```text
 檢查 → 分類 → 顯示證據 → 停止
@@ -96,7 +96,13 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 報告中的 PID 也不應直接轉成 `Stop-Process` 或 `taskkill` 指令，因為 PID 可能已被其他新程序重新使用。
 
-如果只是想立即釋放資源，請先正常關閉相關 Codex 任務、背景終端或 Codex App，再重新檢查。
+如果希望清理「待核准候選」，請要求 Codex 顯示完整目標與計畫 SHA-256。只有回覆完全相同的：
+
+```text
+APPROVE <計畫的 64 字元 SHA-256>
+```
+
+才會重新檢查整份計畫。任何 PID、建立時間、父程序、路徑、命令列指紋或程序樹狀態改變，都會在終止前停止整批操作。完成後會再檢查一次並產生收據。
 
 ## 支援範圍
 
@@ -105,8 +111,8 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 - Codex Desktop／app-server 相關程序
 - MCP servers、Node kernels、背景終端及其程序樹
 
-目前版本：**v0.1，唯讀檢查**
+目前版本：**v0.2，預設唯讀；支援精確核准式清理**
 
 ---
 
-English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees and explains which processes are active, ambiguous, or potentially left behind. The current release is read-only and never terminates processes.
+English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees. Reclaim requires an exact plan digest approval and a fresh full-plan identity check.
