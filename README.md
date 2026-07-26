@@ -2,7 +2,7 @@
 
 安全檢查 Windows 上可能殘留的 Codex、MCP、Node kernel 與背景終端程序。
 
-它會告訴你哪些程序仍在使用、哪些證據不足，以及哪些可能是已結束任務留下的程序。**目前版本只產生報告，不會關閉任何程序。**
+它會告訴你哪些程序仍在使用、哪些證據不足，以及哪些可能是已結束任務留下的程序。**預設只產生報告；沒有精確核准就不會關閉任何程序。**
 
 ## 適合什麼情況？
 
@@ -12,6 +12,8 @@
 - 想檢查殘留程序，但不希望只靠 PID、名稱或記憶體大小判斷
 
 ## 安裝
+
+### 選擇 A：只安裝
 
 把下面這段貼給 Codex：
 
@@ -26,7 +28,32 @@
 
 安裝通常可在一個 Codex 任務內完成。完成後建議開啟新任務再使用。
 
-需要固定版本或更新既有安裝時，請參考[完整安裝說明](install.md)。
+### 選擇 B：安裝並每週自動檢查
+
+如果希望安裝後每週收到一次唯讀報告，把下面整段貼給 Codex：
+
+```text
+請安裝：
+https://github.com/jacky-0218-lung/codex-runtime-hygiene/tree/main/skills/codex-runtime-hygiene
+
+安裝前先靜態檢查完整 Skill；若目的地存在就停止，不要覆蓋。
+安裝成功後，建立名為「Codex Runtime Hygiene Weekly Audit」的排程：
+- 每週一上午 9:00（使用者當地時區）
+- 使用 $codex-runtime-hygiene
+- 只做 audit 和 plan
+- 絕不執行 apply，也不終止任何程序
+- 無異常時只回報簡短摘要
+- 發現 suspected_excess 或 reclaim_candidate 時，列出證據並通知我
+- 如果同名排程已存在，就更新它，不要重複建立
+
+最後回報來源 commit、安裝位置、排程時間與排程狀態。
+```
+
+這是一個提示詞完成兩個明確動作：安裝 Skill，以及建立每週排程。它不是安裝後偷偷啟用的背景服務。電腦必須開機，而且 Codex Desktop 必須持續執行，排程才會在本機準時啟動。
+
+每週排程只會產生報告，不會自動清理。即使報告出現「待核准候選」，仍要回到互動式任務查看完整計畫，並另外核准精確的計畫 SHA-256。
+
+需要固定版本、更新既有安裝或檢查排程是否建立成功時，請參考[完整安裝說明](install.md)。
 
 ## 使用
 
@@ -34,7 +61,7 @@
 
 ```text
 使用 $codex-runtime-hygiene 檢查是否有 Codex 殘留程序。
-只做檢查，不要終止任何程序。
+先做檢查，不要終止任何程序。
 ```
 
 你也可以直接說：
@@ -54,7 +81,7 @@ Codex 會先用中文說明結論，再把程序分成四類：
 | 使用中／受保護 | 屬於目前任務、背景終端，或近期仍有 CPU／I/O 活動 |
 | 身分有疑問 | PID 可能重用，或前後兩次資料不一致 |
 | 疑似多餘 | 看起來像殘留，但任務所有權或活動證據還不完整 |
-| 待核准候選 | 已完成任務、程序身分與靜止證據完整；仍然不會自動關閉 |
+| 待核准候選 | 已完成任務、程序身分與靜止證據完整；必須另外精確核准 |
 
 報告範例如下：
 
@@ -88,7 +115,7 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 ## 報告後會自動清理嗎？
 
-不會。現在的安全流程是：
+不會。如果只要求檢查，流程會停在報告：
 
 ```text
 檢查 → 分類 → 顯示證據 → 停止
@@ -96,7 +123,13 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 報告中的 PID 也不應直接轉成 `Stop-Process` 或 `taskkill` 指令，因為 PID 可能已被其他新程序重新使用。
 
-如果只是想立即釋放資源，請先正常關閉相關 Codex 任務、背景終端或 Codex App，再重新檢查。
+如果希望清理「待核准候選」，請要求 Codex 顯示完整目標與計畫 SHA-256。只有回覆完全相同的：
+
+```text
+APPROVE <計畫的 64 字元 SHA-256>
+```
+
+才會重新檢查整份計畫。任何 PID、建立時間、父程序、路徑、命令列指紋或程序樹狀態改變，都會在終止前停止整批操作。完成後會再檢查一次並產生收據。
 
 ## 支援範圍
 
@@ -105,7 +138,7 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 - Codex Desktop／app-server 相關程序
 - MCP servers、Node kernels、背景終端及其程序樹
 
-目前版本：**v0.1，唯讀檢查**
+目前版本：**v0.2，預設唯讀；支援精確核准式清理**
 
 ## 授權
 
@@ -113,4 +146,4 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 ---
 
-English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees and explains which processes are active, ambiguous, or potentially left behind. The current release is read-only and never terminates processes.
+English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees. Reclaim requires an exact plan digest approval and a fresh full-plan identity check.

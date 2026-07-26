@@ -10,7 +10,7 @@
 
 | 項目 | 結果 |
 |---|---|
-| 版本／模式 | v0.1 / read-only-plan |
+| 版本／模式 | v0.2 / approval-plan |
 | 檢查時間 | 2026-07-25 09:15:00 +09:00 |
 | 所有權證據 | 完整 |
 | 收集方式 | Win32_Process |
@@ -64,23 +64,23 @@
     - Codex 程序樹身分成立；
     - 超過最低年齡；
     - 兩次取樣沒有顯著活動。
-  - 動作：**v0.1 不執行。**
+  - 動作：等待精確計畫 SHA-256 核准。
 
 ### 下一步
 
 1. 保留 `audit.json` 與 `plan.json` 在本機，避免公開其中的路徑與指紋。
 2. 先處理 `ambiguous_identity` 與所有權缺口，再重新稽核。
 3. 不要把這份報告直接轉成 `Stop-Process` 或 `taskkill` 指令。
-4. 等到未來具備核准式 apply 流程後，才可將高信心候選交給它重新驗證。
+4. 只有回覆這份計畫的精確 SHA-256，才可交給 apply 流程重新驗證。
 
 ## `plan.json` 節錄
 
 ```json
 {
-  "schemaVersion": "1.0",
-  "mode": "read-only-plan",
+  "schemaVersion": "2.0",
+  "mode": "approval-plan",
   "approvalRequired": true,
-  "applySupported": false,
+  "applySupported": true,
   "summary": {
     "counts": {
       "protected": 8,
@@ -102,8 +102,9 @@
   ],
   "safety": [
     "This plan does not terminate processes.",
-    "v0.1 has no apply command.",
-    "Any future apply implementation must revalidate every identity and stop the whole plan on drift."
+    "Apply requires an exact user-approved plan-file SHA-256.",
+    "Apply revalidates every identity and stops the whole plan on preflight drift.",
+    "A post-apply audit and receipt are mandatory."
   ]
 }
 ```

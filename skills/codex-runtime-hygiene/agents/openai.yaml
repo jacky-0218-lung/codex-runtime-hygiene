@@ -1,4 +1,4 @@
 interface:
   display_name: "Codex Runtime Hygiene"
-  short_description: "Safely audit Windows Codex runtime processes"
-  default_prompt: "Use $codex-runtime-hygiene to audit Codex-related Windows processes and produce a read-only evidence-based reclaim plan."
+  short_description: "Audit and safely reclaim Codex leftovers"
+  default_prompt: "Use $codex-runtime-hygiene to audit Codex-related Windows processes and show an approval-bound reclaim plan."
