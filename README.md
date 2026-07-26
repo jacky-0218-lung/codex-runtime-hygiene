@@ -107,6 +107,10 @@ Skill 不會因為「記憶體很高」或「程序很久沒動」就認定可�
 
 目前版本：**v0.1，唯讀檢查**
 
+## 授權
+
+本專案採用 [MIT License](LICENSE)。你可以依授權條款使用、修改與散布本專案。
+
 ---
 
 English summary: Codex Runtime Hygiene is a Windows-first Skill that audits Codex-related process trees and explains which processes are active, ambiguous, or potentially left behind. The current release is read-only and never terminates processes.
