@@ -6,7 +6,7 @@ Use Traditional Chinese first unless the user requests another language. Preserv
 
 1. **Conclusion**
    - Say whether evidence is complete.
-   - Say that v0.1 terminated no processes.
+   - Say whether any apply action was requested or completed.
    - Do not convert a candidate into a statement that it is safe to delete.
 2. **Collection quality**
    - Ownership snapshot completeness and errors.
@@ -21,7 +21,7 @@ Use Traditional Chinese first unless the user requests another language. Preserv
    - `protected`: keep.
    - `ambiguous_identity`: collect fresh identity evidence.
    - `suspected_excess`: report only and fill ownership gaps.
-   - `reclaim_candidate`: retain as an unapproved target; do not execute.
+   - `reclaim_candidate`: retain as an unapproved target until its exact plan digest is approved.
 
 ## Compact example
 
@@ -44,7 +44,7 @@ PID / 建立時間：18440 / 2026-07-24T02:14:31Z
 活動差值：CPU 0 ms、I/O 0 bytes
 證據：已完成任務吻合；身分穩定；超過最低年齡；兩次取樣無活動
 
-動作：未終止任何程序。v0.1 applySupported=false。
+動作：未終止任何程序。若要清理，必須另外核准這份計畫的 SHA-256。
 ```
 
 If ownership is incomplete, state explicitly that no process can reach `reclaim_candidate`.
