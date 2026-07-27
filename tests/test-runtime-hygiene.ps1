@@ -78,6 +78,11 @@ try {
     Assert-Equal $true ([bool]$samePlan.valid) "An unchanged fresh plan must validate"
     Assert-Equal 1 @($samePlan.validatedTargets).Count "The unchanged target must remain validated"
 
+    $respawn = Invoke-Fixture "respawn-drift"
+    $respawnValidation = Test-ReclaimPlanAgainstFreshPlan $overlap $respawn
+    Assert-Equal $false ([bool]$respawnValidation.valid) "A newly respawned reclaim target must block the whole approved plan"
+    Assert-Contains "unexpected reclaim candidate" $respawnValidation.errors "Respawn drift must be explained"
+
     $pidReuseDrift = Copy-JsonObject $overlap
     $pidReuseDrift.exactApprovalTargets[0].creationTimeUtc = "2026-07-25T00:00:00Z"
     $reuseValidation = Test-ReclaimPlanAgainstFreshPlan $overlap $pidReuseDrift
@@ -164,7 +169,7 @@ try {
     Assert-Equal $false ([bool]$blockedReceipt.preflightValid) "Blocked preflight receipt must remain invalid"
     Assert-Equal 0 @($blockedReceipt.actions).Count "Blocked preflight must perform no process actions"
 
-    Write-Output "runtime hygiene tests: 40 assertions passed"
+    Write-Output "runtime hygiene tests: 42 assertions passed"
 }
 finally {
     $resolvedTemp = [System.IO.Path]::GetFullPath($tempRoot)

@@ -101,6 +101,12 @@ function Test-ReclaimPlanAgainstFreshPlan {
         $validated += $actual
     }
 
+    foreach ($freshPid in @($freshTargetsByPid.Keys)) {
+        if (-not $approvedPids.Contains([int]$freshPid)) {
+            $errors += "Fresh plan contains unexpected reclaim candidate PID $freshPid."
+        }
+    }
+
     return [pscustomobject]@{
         valid = ($errors.Count -eq 0)
         errors = @($errors)

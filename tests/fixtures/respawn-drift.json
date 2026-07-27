@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0",
+  "ownership": { "complete": true },
+  "processes": [
+    {
+      "pid": 4400,
+      "parentPid": 4000,
+      "creationTimeUtc": "2026-07-23T08:00:00Z",
+      "name": "node.exe",
+      "executablePath": "C:\\synthetic\\codex-old\\node.exe",
+      "commandLineFingerprint": "old-generation",
+      "workingSetBytes": 536870912,
+      "ageSeconds": 115200,
+      "cpuDeltaMs": 0,
+      "ioDeltaBytes": 0,
+      "lineageCodexConnected": true,
+      "identityDrift": false,
+      "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [],
+      "endedOwnershipMatches": ["completed MCP task"],
+      "activeWorkspaceMatches": [],
+      "endedWorkspaceMatches": []
+    },
+    {
+      "pid": 4420,
+      "parentPid": 4400,
+      "creationTimeUtc": "2026-07-23T08:05:00Z",
+      "name": "node.exe",
+      "executablePath": "C:\\synthetic\\codex-old\\node.exe",
+      "commandLineFingerprint": "respawned-grandchild",
+      "workingSetBytes": 268435456,
+      "ageSeconds": 114900,
+      "cpuDeltaMs": 0,
+      "ioDeltaBytes": 0,
+      "lineageCodexConnected": true,
+      "identityDrift": false,
+      "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [],
+      "endedOwnershipMatches": ["completed MCP task"],
+      "activeWorkspaceMatches": [],
+      "endedWorkspaceMatches": []
+    }
+  ]
+}
