@@ -24,11 +24,12 @@ Apply requires:
 - a complete ownership snapshot captured within the configured freshness window;
 - a fresh two-sample audit;
 - every approved target to remain `reclaim_candidate`;
+- the fresh reclaim-target set to exactly match the approved target set;
 - exact PID, parent PID, creation time, executable path, and command-line fingerprint matches;
 - no protected or ambiguous process in the same relevant ancestor or descendant chain;
 - a process handle acquired for every target before any termination begins.
 
-Any mismatch blocks the entire plan before action. Never fall back to PID-only termination, `taskkill`, or an incomplete collector.
+Any mismatch, including a newly respawned reclaim candidate, blocks the entire plan before action. Never fall back to PID-only termination, `taskkill`, or an incomplete collector.
 
 ## Execution and receipt
 

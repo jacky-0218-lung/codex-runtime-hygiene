@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Block apply when a fresh preflight finds any reclaim candidate that was not part of the digest-approved target set.
 - Add a digest-approved v0.2 apply workflow with fresh ownership and two-sample preflight.
 - Revalidate PID, parent PID, creation time, path, fingerprint, and process-tree safety before action.
 - Acquire every original process handle before terminating descendants first.
