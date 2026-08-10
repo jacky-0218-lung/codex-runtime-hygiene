@@ -36,7 +36,7 @@ Create this file from Codex app-server or host task tools immediately before the
 
 ## Completeness
 
-Set `complete: true` only when all available loaded-thread, task-status, turn-lifecycle, workspace, and background-terminal sources were queried successfully. Otherwise use `false` and record an explanatory `errors` array.
+Set `complete: true` only when all available loaded-thread, task-status, turn-lifecycle, workspace, and background-terminal sources were queried successfully. Otherwise use `false` and record an explanatory `errors` array. A non-empty `errors` array always makes ownership incomplete even if `complete` was accidentally left as `true`.
 
 ## Identity rules
 

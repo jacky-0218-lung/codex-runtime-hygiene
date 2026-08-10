@@ -19,7 +19,11 @@ if ([string]$audit.schemaVersion -ne "1.0") {
     throw "Unsupported audit schema version: $($audit.schemaVersion)"
 }
 
-$ownershipComplete = [bool]$audit.ownership.complete
+$ownershipErrors = @()
+if ($null -ne $audit.ownership.PSObject.Properties["errors"]) {
+    $ownershipErrors = @($audit.ownership.errors)
+}
+$ownershipComplete = [bool]$audit.ownership.complete -and $ownershipErrors.Count -eq 0
 $minimumAgeSeconds = $MinimumAgeMinutes * 60
 $classified = @()
 
