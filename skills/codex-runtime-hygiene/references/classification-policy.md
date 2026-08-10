@@ -6,7 +6,7 @@
 2. Match an identity by PID, creation time, executable path, and command-line fingerprint when available.
 3. A reused PID or any identity drift blocks cleanup.
 4. A protected descendant blocks cleanup of its ancestor tree.
-5. Missing ownership evidence lowers confidence; it never increases it.
+5. Missing ownership evidence or any ownership collection error lowers confidence; it never increases it.
 6. Audit and plan are always read-only. Apply is a separate digest-approved workflow.
 
 ## Classes
