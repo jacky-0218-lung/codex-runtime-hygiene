@@ -170,10 +170,11 @@ try {
     Assert-Equal $true $applyBlocked "Synthetic stale targets must be blocked by live preflight"
     Assert-Equal $true (Test-Path -LiteralPath $applyReceiptPath) "Blocked preflight must write a receipt"
     $blockedReceipt = Get-Content -LiteralPath $applyReceiptPath -Raw | ConvertFrom-Json
+    Assert-Equal $false ([string]$blockedReceipt.error -like "*snapshot is stale*") "Fresh Zulu ownership timestamps must survive PowerShell 7.5 date coercion"
     Assert-Equal $false ([bool]$blockedReceipt.preflightValid) "Blocked preflight receipt must remain invalid"
     Assert-Equal 0 @($blockedReceipt.actions).Count "Blocked preflight must perform no process actions"
 
-    Write-Output "runtime hygiene tests: 44 assertions passed"
+    Write-Output "runtime hygiene tests: 45 assertions passed"
 }
 finally {
     $resolvedTemp = [System.IO.Path]::GetFullPath($tempRoot)
