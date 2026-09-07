@@ -312,11 +312,16 @@ foreach ($current in $second) {
     }
 
     $endedMatches = @()
+    $endedStatuses = @()
     $samePidEndedMismatch = $false
     foreach ($identity in @($ownership.endedProcessIdentities)) {
         if ([int]$identity.pid -eq [int]$current.pid) {
             if (Test-Identity $current $identity) {
                 $endedMatches += [string]$identity.reason
+                if ($null -ne $identity.PSObject.Properties["threadStatus"] -and
+                    -not [string]::IsNullOrWhiteSpace([string]$identity.threadStatus)) {
+                    $endedStatuses += [string]$identity.threadStatus
+                }
             }
             else {
                 $samePidEndedMismatch = $true
@@ -374,6 +379,7 @@ foreach ($current in $second) {
         ownershipIdentityMismatch = [bool]($samePidActiveMismatch -or $samePidEndedMismatch)
         activeOwnershipMatches = @($activeMatches)
         endedOwnershipMatches = @($endedMatches)
+        endedOwnershipStatuses = @($endedStatuses)
         activeWorkspaceMatches = @($activeWorkspaceMatches)
         endedWorkspaceMatches = @($endedWorkspaceMatches)
     }

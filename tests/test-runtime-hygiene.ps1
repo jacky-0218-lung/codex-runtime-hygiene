@@ -62,6 +62,10 @@ try {
     Assert-Equal 1 $ownershipErrors.summary.counts.suspected_excess "Ownership collection errors must cap classification even when complete is declared true"
     Assert-Equal 0 $ownershipErrors.summary.counts.reclaim_candidate "Ownership collection errors must block candidates"
 
+    $unloaded = Invoke-Fixture "unloaded-thread"
+    Assert-Equal 1 $unloaded.summary.counts.suspected_excess "A notLoaded thread must not be treated as ended"
+    Assert-Equal 0 $unloaded.summary.counts.reclaim_candidate "Thread unloading must not authorize reclaim"
+
     $fallback = Invoke-Fixture "fallback-collector"
     Assert-Equal 1 $fallback.summary.counts.suspected_excess "Reduced collector evidence must remain suspected"
     Assert-Equal 0 $fallback.summary.counts.reclaim_candidate "Missing I/O or fingerprint must block candidates"
@@ -174,7 +178,7 @@ try {
     Assert-Equal $false ([bool]$blockedReceipt.preflightValid) "Blocked preflight receipt must remain invalid"
     Assert-Equal 0 @($blockedReceipt.actions).Count "Blocked preflight must perform no process actions"
 
-    Write-Output "runtime hygiene tests: 45 assertions passed"
+    Write-Output "runtime hygiene tests: 47 assertions passed"
 }
 finally {
     $resolvedTemp = [System.IO.Path]::GetFullPath($tempRoot)

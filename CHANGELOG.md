@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Prevent app-server `notLoaded` status from being treated as ended-task evidence after the configurable thread-unload grace period.
 - Preserve fresh UTC ownership timestamps when PowerShell 7.5 deserializes JSON timestamps as `DateTime` values.
 - Fail closed when an ownership snapshot declares itself complete but contains collection errors.
 - Block apply when a fresh preflight finds any reclaim candidate that was not part of the digest-approved target set.
