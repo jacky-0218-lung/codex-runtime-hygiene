@@ -8,6 +8,7 @@
 4. A protected descendant blocks cleanup of its ancestor tree.
 5. Missing ownership evidence or any ownership collection error lowers confidence; it never increases it.
 6. Audit and plan are always read-only. Apply is a separate digest-approved workflow.
+7. `notLoaded` and `thread/closed` describe app-server memory lifecycle, not task completion; they never authorize reclaim.
 
 ## Classes
 

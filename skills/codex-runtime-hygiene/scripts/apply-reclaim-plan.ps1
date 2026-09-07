@@ -95,7 +95,20 @@ if (-not [bool]$ownership.complete) {
 if ([string]::IsNullOrWhiteSpace([string]$ownership.capturedAtUtc)) {
     throw "The ownership snapshot has no capturedAtUtc timestamp."
 }
-$ownershipCapturedAt = [datetime]::Parse([string]$ownership.capturedAtUtc).ToUniversalTime()
+$ownershipCapturedAtValue = $ownership.capturedAtUtc
+if ($ownershipCapturedAtValue -is [datetime]) {
+    $ownershipCapturedAt = $ownershipCapturedAtValue.ToUniversalTime()
+}
+elseif ($ownershipCapturedAtValue -is [datetimeoffset]) {
+    $ownershipCapturedAt = $ownershipCapturedAtValue.UtcDateTime
+}
+else {
+    $ownershipCapturedAt = [datetime]::Parse(
+        [string]$ownershipCapturedAtValue,
+        [System.Globalization.CultureInfo]::InvariantCulture,
+        [System.Globalization.DateTimeStyles]::RoundtripKind
+    ).ToUniversalTime()
+}
 $ownershipAgeSeconds = ([datetime]::UtcNow - $ownershipCapturedAt).TotalSeconds
 if ($ownershipAgeSeconds -lt -30 -or $ownershipAgeSeconds -gt $MaximumOwnershipSnapshotAgeSeconds) {
     throw "The ownership snapshot is stale or has an invalid future timestamp."

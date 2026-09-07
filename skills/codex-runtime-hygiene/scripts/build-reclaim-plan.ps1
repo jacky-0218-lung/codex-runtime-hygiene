@@ -32,6 +32,13 @@ foreach ($p in @($audit.processes)) {
     $blockers = @()
     $class = "suspected_excess"
     $confidence = "low"
+    $endedOwnershipStatuses = @()
+    if ($null -ne $p.PSObject.Properties["endedOwnershipStatuses"]) {
+        $endedOwnershipStatuses = @($p.endedOwnershipStatuses)
+    }
+    $hasUnloadedThreadEvidence = @($endedOwnershipStatuses | Where-Object {
+        [string]$_ -eq "notLoaded"
+    }).Count -gt 0
 
     if ([bool]$p.identityDrift -or [bool]$p.ownershipIdentityMismatch) {
         $class = "ambiguous_identity"
@@ -67,6 +74,11 @@ foreach ($p in @($audit.processes)) {
         $class = "suspected_excess"
         $confidence = "low"
         $blockers += "Authoritative ownership snapshot is missing or incomplete."
+    }
+    elseif ($hasUnloadedThreadEvidence) {
+        $class = "suspected_excess"
+        $confidence = "medium"
+        $blockers += "Thread status notLoaded means unloaded from memory, not ended."
     }
     elseif ((@($p.endedOwnershipMatches).Count + @($p.endedWorkspaceMatches).Count) -eq 0) {
         $class = "suspected_excess"
