@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0",
+  "ownership": { "complete": true },
+  "processes": [
+    {
+      "pid": 4500,
+      "parentPid": 4000,
+      "creationTimeUtc": "2026-09-01T00:00:00Z",
+      "name": "node.exe",
+      "executablePath": "C:\\synthetic\\codex-unloaded\\node.exe",
+      "commandLineFingerprint": "unloaded-thread-terminal",
+      "workingSetBytes": 268435456,
+      "ageSeconds": 172800,
+      "cpuDeltaMs": 0,
+      "ioDeltaBytes": 0,
+      "lineageCodexConnected": true,
+      "identityDrift": false,
+      "ownershipIdentityMismatch": false,
+      "activeOwnershipMatches": [],
+      "endedOwnershipMatches": ["thread is not loaded after unsubscribe grace period"],
+      "endedOwnershipStatuses": ["notLoaded"],
+      "activeWorkspaceMatches": [],
+      "endedWorkspaceMatches": []
+    }
+  ]
+}

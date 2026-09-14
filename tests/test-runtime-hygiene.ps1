@@ -62,6 +62,14 @@ try {
     Assert-Equal 1 $ownershipErrors.summary.counts.suspected_excess "Ownership collection errors must cap classification even when complete is declared true"
     Assert-Equal 0 $ownershipErrors.summary.counts.reclaim_candidate "Ownership collection errors must block candidates"
 
+    $unloaded = Invoke-Fixture "unloaded-thread"
+    Assert-Equal 1 $unloaded.summary.counts.suspected_excess "A notLoaded thread must not be treated as ended"
+    Assert-Equal 0 $unloaded.summary.counts.reclaim_candidate "Thread unloading must not authorize reclaim"
+
+    $sharedDaemon = Invoke-Fixture "shared-windows-daemon"
+    Assert-Equal 1 $sharedDaemon.summary.counts.protected "A shared Windows app-server daemon must be protected"
+    Assert-Equal 0 $sharedDaemon.summary.counts.reclaim_candidate "A shared daemon must not inherit ended-task ownership"
+
     $fallback = Invoke-Fixture "fallback-collector"
     Assert-Equal 1 $fallback.summary.counts.suspected_excess "Reduced collector evidence must remain suspected"
     Assert-Equal 0 $fallback.summary.counts.reclaim_candidate "Missing I/O or fingerprint must block candidates"
@@ -170,10 +178,11 @@ try {
     Assert-Equal $true $applyBlocked "Synthetic stale targets must be blocked by live preflight"
     Assert-Equal $true (Test-Path -LiteralPath $applyReceiptPath) "Blocked preflight must write a receipt"
     $blockedReceipt = Get-Content -LiteralPath $applyReceiptPath -Raw | ConvertFrom-Json
+    Assert-Equal $false ([string]$blockedReceipt.error -like "*snapshot is stale*") "Fresh Zulu ownership timestamps must survive PowerShell 7.5 date coercion"
     Assert-Equal $false ([bool]$blockedReceipt.preflightValid) "Blocked preflight receipt must remain invalid"
     Assert-Equal 0 @($blockedReceipt.actions).Count "Blocked preflight must perform no process actions"
 
-    Write-Output "runtime hygiene tests: 44 assertions passed"
+    Write-Output "runtime hygiene tests: 49 assertions passed"
 }
 finally {
     $resolvedTemp = [System.IO.Path]::GetFullPath($tempRoot)

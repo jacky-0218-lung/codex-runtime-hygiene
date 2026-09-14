@@ -60,6 +60,8 @@ $required = @(
     "tests\fixtures\overlapping-generations.json",
     "tests\fixtures\seventeen-kernels.json",
     "tests\fixtures\ownership-incomplete.json",
+    "tests\fixtures\unloaded-thread.json",
+    "tests\fixtures\shared-windows-daemon.json",
     "tests\fixtures\fallback-collector.json"
 )
 foreach ($relative in $required) {

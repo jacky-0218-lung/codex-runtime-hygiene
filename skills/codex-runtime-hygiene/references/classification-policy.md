@@ -8,12 +8,14 @@
 4. A protected descendant blocks cleanup of its ancestor tree.
 5. Missing ownership evidence or any ownership collection error lowers confidence; it never increases it.
 6. Audit and plan are always read-only. Apply is a separate digest-approved workflow.
+7. `notLoaded` and `thread/closed` describe app-server memory lifecycle, not task completion; they never authorize reclaim.
+8. A shared Windows app-server daemon is infrastructure, not task-owned runtime; an ended task cannot make it reclaimable.
 
 ## Classes
 
 | Class | Required evidence | Action |
 |---|---|---|
-| `protected` | Active ownership match, active workspace match, recent CPU/I/O, or newly created process | Never include in a reclaim target |
+| `protected` | Shared app-server daemon, active ownership match, active workspace match, recent CPU/I/O, or newly created process | Never include in a reclaim target |
 | `ambiguous_identity` | PID reuse, creation-time mismatch, sample drift, or contradictory ownership | Report the conflict; collect fresh evidence |
 | `suspected_excess` | Codex-connected, old and quiet, but ownership is incomplete or no ended-task evidence matches | Report only |
 | `reclaim_candidate` | Complete ownership snapshot, exact ended-task evidence, Codex lineage, minimum age, quiet across samples, and no identity conflict | Include in a digest-bound approval plan |
@@ -32,13 +34,14 @@ Thresholds reduce noise; they do not replace ownership evidence.
 Apply evidence in this order:
 
 1. Exact active PID plus creation-time match.
-2. Active terminal or task identity match.
-3. Active workspace match.
-4. Recent CPU or I/O.
-5. Exact ended-task identity or ended-workspace match.
-6. Heuristics such as age, duplicate executable, or old application generation.
+2. Shared app-server daemon runtime role.
+3. Active terminal or task identity match.
+4. Active workspace match.
+5. Recent CPU or I/O.
+6. Exact ended-task identity or ended-workspace match.
+7. Heuristics such as age, duplicate executable, or old application generation.
 
-Items 1–4 protect. Item 5 can support a reclaim candidate. Item 6 can only support `suspected_excess`.
+Items 1–5 protect. Item 6 can support a reclaim candidate. Item 7 can only support `suspected_excess`.
 
 ## Tree rule
 
