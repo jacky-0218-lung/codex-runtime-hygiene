@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Protect the shared Windows app-server daemon from inheriting ended-task ownership in reclaim plans.
 - Prevent app-server `notLoaded` status from being treated as ended-task evidence after the configurable thread-unload grace period.
 - Preserve fresh UTC ownership timestamps when PowerShell 7.5 deserializes JSON timestamps as `DateTime` values.
 - Fail closed when an ownership snapshot declares itself complete but contains collection errors.

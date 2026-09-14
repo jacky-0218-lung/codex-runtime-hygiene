@@ -39,11 +39,23 @@ foreach ($p in @($audit.processes)) {
     $hasUnloadedThreadEvidence = @($endedOwnershipStatuses | Where-Object {
         [string]$_ -eq "notLoaded"
     }).Count -gt 0
+    $ownershipRuntimeRoles = @()
+    if ($null -ne $p.PSObject.Properties["ownershipRuntimeRoles"]) {
+        $ownershipRuntimeRoles = @($p.ownershipRuntimeRoles)
+    }
+    $isSharedAppServerDaemon = @($ownershipRuntimeRoles | Where-Object {
+        [string]$_ -eq "sharedAppServerDaemon"
+    }).Count -gt 0
 
     if ([bool]$p.identityDrift -or [bool]$p.ownershipIdentityMismatch) {
         $class = "ambiguous_identity"
         $confidence = "high"
         $blockers += "PID or process identity changed or conflicts with the ownership snapshot."
+    }
+    elseif ($isSharedAppServerDaemon) {
+        $class = "protected"
+        $confidence = "high"
+        $reasons += "Process is the shared Windows app-server daemon and is not owned by one task."
     }
     elseif (@($p.activeOwnershipMatches).Count -gt 0) {
         $class = "protected"

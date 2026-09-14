@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0",
+  "ownership": { "complete": true },
+  "processes": [
+    {
+      "pid": 4600,
+      "parentPid": 0,
+      "creationTimeUtc": "2026-09-03T00:00:00Z",
+      "name": "codex.exe",
+      "executablePath": "C:\\synthetic\\codex\\codex.exe",
+      "commandLineFingerprint": "shared-windows-app-server-daemon",
+      "workingSetBytes": 402653184,
+      "ageSeconds": 604800,
+      "cpuDeltaMs": 0,
+      "ioDeltaBytes": 0,
+      "lineageCodexConnected": true,
+      "identityDrift": false,
+      "ownershipIdentityMismatch": false,
+      "ownershipRuntimeRoles": ["sharedAppServerDaemon"],
+      "activeOwnershipMatches": [],
+      "endedOwnershipMatches": ["previous task used this process"],
+      "activeWorkspaceMatches": [],
+      "endedWorkspaceMatches": ["C:\\synthetic\\completed-project"]
+    }
+  ]
+}

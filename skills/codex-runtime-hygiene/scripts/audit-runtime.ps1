@@ -299,11 +299,16 @@ foreach ($current in $second) {
     }
 
     $activeMatches = @()
+    $ownershipRuntimeRoles = @()
     $samePidActiveMismatch = $false
     foreach ($identity in @($ownership.activeProcessIdentities)) {
         if ([int]$identity.pid -eq [int]$current.pid) {
             if (Test-Identity $current $identity) {
                 $activeMatches += [string]$identity.reason
+                if ($null -ne $identity.PSObject.Properties["runtimeRole"] -and
+                    -not [string]::IsNullOrWhiteSpace([string]$identity.runtimeRole)) {
+                    $ownershipRuntimeRoles += [string]$identity.runtimeRole
+                }
             }
             else {
                 $samePidActiveMismatch = $true
@@ -318,6 +323,10 @@ foreach ($current in $second) {
         if ([int]$identity.pid -eq [int]$current.pid) {
             if (Test-Identity $current $identity) {
                 $endedMatches += [string]$identity.reason
+                if ($null -ne $identity.PSObject.Properties["runtimeRole"] -and
+                    -not [string]::IsNullOrWhiteSpace([string]$identity.runtimeRole)) {
+                    $ownershipRuntimeRoles += [string]$identity.runtimeRole
+                }
                 if ($null -ne $identity.PSObject.Properties["threadStatus"] -and
                     -not [string]::IsNullOrWhiteSpace([string]$identity.threadStatus)) {
                     $endedStatuses += [string]$identity.threadStatus
@@ -377,6 +386,7 @@ foreach ($current in $second) {
         lineageCodexConnected = $true
         identityDrift = [bool]$identityDrift
         ownershipIdentityMismatch = [bool]($samePidActiveMismatch -or $samePidEndedMismatch)
+        ownershipRuntimeRoles = @($ownershipRuntimeRoles | Select-Object -Unique)
         activeOwnershipMatches = @($activeMatches)
         endedOwnershipMatches = @($endedMatches)
         endedOwnershipStatuses = @($endedStatuses)
